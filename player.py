@@ -18,7 +18,6 @@ class Player(pygame.sprite.Sprite):
         
         # movement 
         self.direction = pygame.math.Vector2()
-        self.speed = 3
         self.attacking = False
         self.attack_cooldown = 400
         self.attack_time = None
@@ -29,7 +28,13 @@ class Player(pygame.sprite.Sprite):
         self.destroy_attack = destroy_attack
         self.weapon_index = 0
         self.weapon = list (weapon_data.keys())[self.weapon_index]
-        
+
+        # stats
+        self.stats = {'health': 100, 'energy':60, 'attack':10, 'magic':4, 'speed': 3}
+        self.health = self.stats['health']
+        self.energy = self.stats['energy']
+        self.exp = 13
+        self.speed = self.stats['speed']
 
     def import_player_assets(self):
         character_path = 'graphics/player/'
