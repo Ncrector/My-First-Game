@@ -1,0 +1,153 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "TSS files/Rocks2.tsx",
+    "expandedProjectPaths": [
+        "graphics",
+        "TSS files",
+        "."
+    ],
+    "fileStates": {
+        "Dirt (1).tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Dirt2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Dirt3.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Dirt4.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Rocks2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TSS files/Dirt (1).tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TSS files/Dirt2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "TSS files/Dirt3.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "TSS files/Dirt4.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "TSS files/Dungeon_Tileset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "TSS files/Rocks2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "TSS files/grass_1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "TSS files/grass_2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "TSS files/grass_3.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "TSS files/pngkey.com-dirt-texture-png-928408.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 0.75
+        },
+        "TSS files/rock.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "TSS files/rock5.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "TiledMap.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 4812,
+                "y": 7980
+            }
+        },
+        "grass_1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "grass_2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "grass_3.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "rock.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "rock5.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.exportedFilePath": "C:/Users/nik/My_First_Game/CSV",
+    "last.externalTilesetPath": "C:/Users/nik/My_First_Game/TSS files",
+    "last.imagePath": "C:/Users/nik/My_First_Game/graphics/tilemap",
+    "map.height": 150,
+    "map.lastUsedExportFilter": "CSV files (*.csv)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
+    "map.width": 100,
+    "openFiles": [
+        "TiledMap.tmx",
+        "TSS files/Dirt (1).tsx",
+        "TSS files/Dirt2.tsx",
+        "TSS files/Dirt3.tsx",
+        "TSS files/Dirt4.tsx",
+        "TSS files/grass_1.tsx",
+        "TSS files/grass_2.tsx",
+        "TSS files/grass_3.tsx",
+        "TSS files/rock.tsx",
+        "TSS files/rock5.tsx",
+        "TSS files/Rocks2.tsx"
+    ],
+    "project": "TiledBackground.tiled-project",
+    "recentFiles": [
+        "grass_1.tsx",
+        "TSS files/Dungeon_Tileset.tsx",
+        "TSS files/grass_1.tsx",
+        "TSS files/rock.tsx",
+        "TiledMap.tmx",
+        "TSS files/Rocks2.tsx",
+        "TSS files/rock5.tsx",
+        "TSS files/grass_3.tsx",
+        "TSS files/grass_2.tsx",
+        "TSS files/Dirt4.tsx",
+        "TSS files/Dirt3.tsx",
+        "TSS files/Dirt2.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    },
+    "tileset.type": 0
+}

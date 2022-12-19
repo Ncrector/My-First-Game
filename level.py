@@ -3,6 +3,9 @@ from settings import *
 from tile import Tile
 from player import Player
 from support import *
+from random import choice
+from debug import debug
+from weapon import Weapon
 
 class Level:
   def __init__(self):
@@ -18,26 +21,46 @@ class Level:
     self.create_map()
 
   def create_map(self):
-    layouts = {
-      'boundary': import_csv_layout('background.csv')
-    }
     
+    layouts = {
+      'Boundary': import_csv_layout('CSV/TiledMap_Boundary.csv'),
+      'grass': import_csv_layout('CSV/TiledMap_grass.csv'),
+      
+    }
+    graphics = {
+      
+      'grass': import_folder('graphics/terrain/grass'),
+      
+    }
+   
     for style,layout in layouts.items():
       for row_index,row in enumerate(layout):
         for col_index, col in enumerate(row):
           if col != '-1':
             x = col_index * TILESIZE
             y = row_index * TILESIZE
-            if style == 'boundary':
-              Tile((x,y), [self.visible_sprites,self.obstacle_sprites],'invisible')
+            if style == 'Boundary':
+              
+              Tile((x,y), [self.obstacle_sprites],'invisible')
+            if style == 'grass':
+              random_grass_image = choice(graphics['grass'])
+              Tile((x,y), [self.visible_sprites,self.obstacle_sprites],'grass', random_grass_image,1)
+            
 
-    self.player = Player((2600, 6500), [self.visible_sprites], self.obstacle_sprites)
+
+    self.player = Player((1596 , 4250), [self.visible_sprites], self.obstacle_sprites, self.create_attack)
+
+  def create_attack(self):
+    Weapon(self.player,[self.visible_sprites])
+    
 
   def run(self):
     #update and draw self
     
     self.visible_sprites.custom_draw(self.player)
     self.visible_sprites.update()
+    debug(self.player.status)
+
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):
@@ -50,7 +73,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         #creating the floor
-        self.floor_surf = pygame.image.load('BackGround.png').convert()
+        self.floor_surf = pygame.image.load('graphics/TiledMap.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
     def custom_draw(self,player):
@@ -62,6 +85,6 @@ class YSortCameraGroup(pygame.sprite.Group):
         floor_offset_pos = self.floor_rect.topleft - self.offset
         self.display_surface.blit(self.floor_surf,floor_offset_pos)
         #draws the sprites in order so the player is properly behind or infront of other sprites
-        for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
+        for sprite in sorted(self.sprites(), key = lambda sprite: (sprite.image_depth, sprite.rect.centery)):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image,offset_pos)

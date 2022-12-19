@@ -1,6 +1,7 @@
 import pygame, sys
 from level import Level
 from settings import *
+from debug import *
 
 class Game:
     def __init__(self):
