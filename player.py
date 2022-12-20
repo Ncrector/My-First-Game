@@ -59,19 +59,19 @@ class Player(pygame.sprite.Sprite):
         if not self.attacking:
             keys = pygame.key.get_pressed()
 
-            if keys[pygame.K_UP]:
+            if keys[pygame.K_w]:
                 self.direction.y = -1
                 self.status = 'up'
-            elif keys[pygame.K_DOWN]:
-                self.direction.y = 1
+            elif keys[pygame.K_s]:
+                self.direction.y = 2
                 self.status = 'down'
             else:
                 self.direction.y = 0
             
-            if keys[pygame.K_RIGHT]:
+            if keys[pygame.K_d]:
                 self.direction.x = 1
                 self.status = 'right'
-            elif keys[pygame.K_LEFT]:
+            elif keys[pygame.K_a]:
                 self.direction.x = -1
                 self.status = 'left'
             else:
