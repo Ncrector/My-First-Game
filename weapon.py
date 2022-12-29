@@ -3,6 +3,7 @@ import pygame
 class Weapon(pygame.sprite.Sprite):
     def __init__(self,player,groups,):
         super().__init__(groups)
+        self.sprite_type = 'weapon'
         self.image_depth = 1
         direction = player.status.split('_')[0]
         
@@ -35,7 +36,7 @@ class Weapon(pygame.sprite.Sprite):
         elif direction == 'up':
             self.rect = self.image.get_rect(midbottom = player.rect.midtop + pygame.math.Vector2(0, 8))
         elif direction == 'down':
-            self.rect = self.image.get_rect(midtop = player.rect.midbottom + pygame.math.Vector2(0, 8))
+            self.rect = self.image.get_rect(midtop = player.rect.midbottom + pygame.math.Vector2(-4, 2))
         else:
             self.rect = self.image.get_rect(center = player.rect.center)
 
