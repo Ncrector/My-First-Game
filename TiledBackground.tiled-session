@@ -3,12 +3,13 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "TSS files/grass_1.tsx",
+    "activeFile": "TiledMap.tmx",
     "expandedProjectPaths": [
         "TSS files",
         "graphics",
         "."
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "Dirt (1).tsx": {
             "scaleInDock": 1,
@@ -46,10 +47,26 @@
             "scaleInDock": 1,
             "scaleInEditor": 1.5
         },
+        "TSS files/Dungeon_Set_64.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
         "TSS files/Dungeon_Tileset.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 1.5
+        },
+        "TSS files/Dungeon_Tileset_64.tsx": {
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        },
+        "TSS files/New_Map_64.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 3153,
+                "y": 8200
+            }
         },
         "TSS files/Rocks2.tsx": {
             "scaleInDock": 1,
@@ -59,6 +76,9 @@
             "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 1.5
+        },
+        "TSS files/grass_1_64.tsx": {
+            "scaleInDock": 1
         },
         "TSS files/grass_2.tsx": {
             "scaleInDock": 1,
@@ -86,10 +106,10 @@
         },
         "TiledMap.tmx": {
             "scale": 0.5,
-            "selectedLayer": 3,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 248,
-                "y": 2665
+                "x": 1897,
+                "y": 2460
             }
         },
         "grass_1.tsx": {
@@ -120,34 +140,32 @@
     "map.height": 150,
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
-    "map.tileHeight": 32,
-    "map.tileWidth": 32,
+    "map.tileHeight": 64,
+    "map.tileWidth": 64,
     "map.width": 100,
     "openFiles": [
-        "TiledMap.tmx",
-        "TSS files/grass_1.tsx",
-        "TSS files/spirit.tsx",
-        "TSS files/rock.tsx"
+        "TSS files/Dungeon_Set_64.tsx",
+        "TiledMap.tmx"
     ],
     "project": "TiledBackground.tiled-project",
     "recentFiles": [
+        "TSS files/Dungeon_Set_64.tsx",
         "TiledMap.tmx",
+        "TSS files/New_Map_64.tmx",
+        "TSS files/Dungeon_Tileset_64.tsx",
+        "TSS files/Dungeon_Tileset.tsx",
         "TSS files/rock.tsx",
         "TSS files/spirit.tsx",
         "TSS files/grass_1.tsx",
         "grass_1.tsx",
-        "TSS files/Dungeon_Tileset.tsx",
         "TSS files/Rocks2.tsx",
         "TSS files/rock5.tsx",
-        "TSS files/grass_3.tsx",
-        "TSS files/grass_2.tsx",
-        "TSS files/Dirt4.tsx",
-        "TSS files/Dirt3.tsx"
+        "TSS files/grass_3.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 32,
-        "width": 32
+        "height": 64,
+        "width": 64
     },
     "tileset.type": 0
 }
