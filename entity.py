@@ -1,12 +1,12 @@
 import pygame
 
 class Entity(pygame.sprite.Sprite):
-    def __init_(self,groups):
+    def __init__(self,groups):
         super().__init__(groups)
         self.frame_index = 0
         self.animation_speed = 0.15
-        self.direction = pygame.math.Vectory2()
-    
+        self.direction = pygame.math.Vector2()
+
     def move(self, speed):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()

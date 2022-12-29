@@ -8,7 +8,7 @@ def import_csv_layout(path):
     with open(path) as level_map:
         layout = reader(level_map, delimiter = ',')
         for row in layout:
-            terrain_map.append(list(row))
+            terrain_map.append([int(x) for x in row])
         return terrain_map
 
 def import_folder(path):

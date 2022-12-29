@@ -1,22 +1,30 @@
 import pygame
 
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self,player,groups):
+    def __init__(self,player,groups,):
         super().__init__(groups)
         self.image_depth = 1
         direction = player.status.split('_')[0]
         
-
+    
         # graphics
         full_path = f'graphics/weapons/{player.weapon}/{direction}.png'
         self.image = pygame.image.load(full_path).convert_alpha()
 
+        
+        image_width, image_height = self.image.get_size()
+
+        scale_factor = 0.5
+        scaled_width = int(image_width * scale_factor)
+        scaled_height = int(image_height * scale_factor)
+
         if 'up' in direction or 'down' in direction:
-            self.image = pygame.transform.scale(self.image, (12, 22))
-            self.rect = pygame.Rect((0,0),(12,22))
+            self.image = pygame.transform.scale(self.image, (scaled_width, scaled_height))
+            self.rect = pygame.Rect((0,0),(scaled_width,scaled_height))
         else:
-            self.image = pygame.transform.scale(self.image, (22, 12))
-            self.rect = pygame.Rect((0,0),(22,12))
+            self.image = pygame.transform.scale(self.image, (scaled_width, scaled_height))
+            self.rect = pygame.Rect((0,0),(scaled_width,scaled_height))
+       
 
         
         # placement
@@ -30,3 +38,5 @@ class Weapon(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(midtop = player.rect.midbottom + pygame.math.Vector2(0, 8))
         else:
             self.rect = self.image.get_rect(center = player.rect.center)
+
+            
