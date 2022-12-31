@@ -59,8 +59,17 @@ class Upgrade:
             item = Item(left,top,self.width,self.height,index,self.font)
             self.item_list.append(item)
 
+    def tooltip(self):
+        self.font = pygame.font.Font(UI_FONT, 14)
+        text_surf = self.font.render("q and e to select, press spacebar to upgrade", False, TEXT_COLOR)
+        display_width, display_height = self.display_surface.get_size()
+        text_rect = text_surf.get_rect(midbottom=(display_width // 2, display_height - 10))
+        pygame.draw.rect(self.display_surface, UI_BG_COLOR, text_rect.inflate(20, 20))
+        self.display_surface.blit(text_surf, text_rect)
+        pygame.draw.rect(self.display_surface, UI_BORDER_COLOR, text_rect.inflate(20, 20), 3)
+
     def display(self):
-        
+        self.tooltip()
         self.input()
         self.selection_cooldown()
 
@@ -69,7 +78,7 @@ class Upgrade:
             value = self.player.get_value_by_index(index)
             max_value = self.max_values[index]
             cost = self.player.get_cost_by_index(index)
-            item.display(self.display_surface,self.selection_index,name,value,max_value,cost)
+            item.display(self.display_surface, self.selection_index, name,value, max_value,cost)
         
 class Item:
     def __init__(self,l,t,w,h,index,font):
@@ -84,8 +93,8 @@ class Item:
         title_rect = title_surf.get_rect(midtop = self.rect.midtop + pygame.math.Vector2(0, 10))
 
         # cost
-        cost_surf = self.font.render(f'{int(cost)}', False, color)
-        cost_rect = title_surf.get_rect(midbottom = self.rect.midbottom - pygame.math.Vector2(-20, 10))
+        cost_surf = self.font.render('cost ' + f'{int(cost)}', False, color)
+        cost_rect = title_surf.get_rect(bottomright = self.rect.midbottom - pygame.math.Vector2(-20, 10))
         # draw
         surface.blit(title_surf,title_rect)
         surface.blit(cost_surf,cost_rect)
@@ -112,6 +121,8 @@ class Item:
         if player.exp >= player.upgrade_cost[upgrade_attribute] and player.stats[upgrade_attribute] < player.max_stats[upgrade_attribute]:
             player.exp -= player.upgrade_cost[upgrade_attribute]
             player.stats[upgrade_attribute] *= 1.2
+            print(upgrade_attribute)
+            print(player.stats[upgrade_attribute])
             player.upgrade_cost[upgrade_attribute] *= 1.4
 
         if player.stats[upgrade_attribute] > player.max_stats[upgrade_attribute]:
