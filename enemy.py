@@ -36,7 +36,7 @@ class Enemy(Entity):
         # player interaction
         self.can_attack = True
         self.attack_time = None
-        self.attack_cooldown = 800
+        self.attack_cooldown = 2000
         self.damage_player = damage_player
         self.trigger_death_particles = trigger_death_particles
         self.add_exp = add_exp
@@ -44,7 +44,15 @@ class Enemy(Entity):
         # invincibility timer
         self.vulnerable = True
         self.hit_time = None
-        self.invincibility_duration = 300
+        self.invincibility_duration = 500
+
+        # sounds
+        self.death_sound = pygame.mixer.Sound("audio/death.wav")
+        self.hit_sound = pygame.mixer.Sound("audio/hit.wav")
+        self.attack_sound = pygame.mixer.Sound(monster_info['attack_sound'])
+        self.death_sound.set_volume(0.1)
+        self.hit_sound.set_volume(0.1)
+        self.attack_sound.set_volume(0.1)
 
     def import_graphics(self,name):
         self.animations = {'idle':[],'move':[],'attack':[]}
@@ -59,6 +67,7 @@ class Enemy(Entity):
 
         if distance > 0:
             direction = (player_vec - enemy_vec).normalize()
+            self.speed = 1.5
         else:
             direction = pygame.math.Vector2()
 
@@ -71,17 +80,25 @@ class Enemy(Entity):
             if self.status != 'attack':
                 self.frame_index = 0
             self.status = 'attack'
-        elif distance <= self.notice_radius:
+            self.direction = pygame.math.Vector2()
+        elif distance <= self.notice_radius and self.status != 'attack':
             self.status = 'move'
-        else:
+        elif distance > self.attack_radius:
             self.status = 'idle'
         
-    def actions(self,player):
+        
+    def actions(self,player,):
+        distance, direction = self.get_player_distance_direction(player)
+
         if self.status == 'attack':
             self.attack_time = pygame.time.get_ticks()
             self.damage_player(self.attack_damage,self.attack_type)
+            self.attack_sound.play()
         elif self.status == 'move':
-            self.direction = self.get_player_distance_direction(player)[1]
+            if distance > self.notice_radius:
+                return
+            if distance > self.attack_radius:
+                self.direction = self.get_player_distance_direction(player)[1]
         else:
             self.direction = pygame.math.Vector2()
     
@@ -111,6 +128,7 @@ class Enemy(Entity):
         if not self.can_attack:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.can_attack = True
+
         
         if not self.vulnerable:
             if current_time - self.hit_time >= self.invincibility_duration:
@@ -135,6 +153,8 @@ class Enemy(Entity):
     def hit_reaction(self):
         if not self.vulnerable:
             self.direction *= -self.resistance
+            self.speed += self.resistance
+        
 
     def update(self):
         self.hit_reaction()

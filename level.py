@@ -35,6 +35,10 @@ class Level:
     self.ui = UI()
     self.upgrade = Upgrade(self.player)
 
+    # game over
+    self.game_over_screen = GameOverScreen((960,540))
+    self.game_over = False
+
     # particles
     self.animation_player = AnimationPlayer()
     self.magic_player = MagicPlayer(self.animation_player)
@@ -121,15 +125,22 @@ class Level:
     self.visible_sprites.custom_draw(self.player)
     self.ui.display(self.player)
     if self.game_paused:
-      # display upgrade menu
-      self.upgrade.display()
+        if self.player.health <= 0:
+            self.game_over_screen.display()
+            self.game_over = self.game_over_screen.display()
+            
+        else:
+            self.upgrade.display()
     else:
-      self.visible_sprites.update()
-      self.visible_sprites.enemy_update(self.player)
-      self.player_attack_logic()
+        self.visible_sprites.update()
+        self.visible_sprites.enemy_update(self.player)
+        self.player_attack_logic()
   
   def add_xp(self,amount):
     self.player.exp += amount
+  
+  def get_players_health(self):
+    return self.player.health
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self):

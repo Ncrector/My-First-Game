@@ -37,7 +37,7 @@ class Player(Entity):
         self.upgrade_cost = {"health": 100, "energy": 100, "attack": 100, "magic": 100, "speed": 100}
         self.health = self.stats["health"]
         self.energy = self.stats["energy"]
-        self.exp = 5000
+        self.exp = 500
         self.speed = self.stats["speed"]
 
         # magic 
@@ -113,6 +113,7 @@ class Player(Entity):
                 self.attack_time = pygame.time.get_ticks()
                 self.create_attack()
                 self.weapon_attack_sound.play()
+                print(self.stats)
         
             # magic input
             if keys[pygame.K_LCTRL]:
