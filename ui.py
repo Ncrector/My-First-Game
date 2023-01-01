@@ -2,8 +2,8 @@ import pygame
 from settings import *
 
 class UI:
+    
     def __init__(self):
-        # general
         self.display_surface = pygame.display.get_surface()
         self.font = pygame.font.Font(UI_FONT, UI_FONT_SIZE)
 
@@ -25,9 +25,7 @@ class UI:
             magic = pygame.image.load(path).convert_alpha()
             self.magic_graphics.append(magic)
 
-    def show_bar(self,current,max_amount, bg_rect, color):
-
-        # draw bg
+    def show_bar(self, current, max_amount, bg_rect, color):
         pygame.draw.rect(self.display_surface, UI_BG_COLOR, bg_rect)
 
         # converting stat to pixel
@@ -38,6 +36,12 @@ class UI:
         # drawing the bar
         pygame.draw.rect(self.display_surface,color,current_rect)
         pygame.draw.rect(self.display_surface, UI_BORDER_COLOR, bg_rect,3)
+
+        font = pygame.font.Font(None, 18)
+        text = font.render(f"{int(current)}/{int(max_amount)}", True, (255,255,255))
+        text_rect = text.get_rect()
+        text_rect.center = bg_rect.center
+        self.display_surface.blit(text, text_rect)
 
     def show_exp(self,exp):
         text_surf = self.font.render('xp ' + str(int(exp)),False,TEXT_COLOR)
@@ -108,5 +112,4 @@ class UI:
         self.show_exp(player.exp)
         self.upgrade_menu()
         self.weapon_overlay(player.weapon_index,not player.can_switch_weapon)
-        self.magic_overlay(player.magic_index,not player.can_switch_magic)
-        
+        self.magic_overlay(player.magic_index,not player.can_switch_magic)   

@@ -18,7 +18,7 @@ class Game:
     def run(self):
       
       main_sound = pygame.mixer.Sound('audio/Epic1x.wav')
-      main_sound.set_volume(0.5)
+      main_sound.set_volume(0.2)
       main_sound.play(loops = -1)
 
       while True:
@@ -43,11 +43,10 @@ class Game:
                   game_over_sound.play(loops=0)
                   self.game_over_sound_played = True  # Set the flag to True after playing the sound
             
-
         self.screen.fill('black')
         self.level.run()
         pygame.display.update()
-        self.clock.tick(FPS) 
+        self.clock.tick(FPS)
 
         if self.level.game_over == True:
             game_over_sound.stop()

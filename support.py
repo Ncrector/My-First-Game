@@ -24,6 +24,7 @@ def import_folder(path):
     return surface_list
 
 class GameOverScreen:
+    
     def __init__(self, screen_size):
         self.screen_size = screen_size
         self.font = pygame.font.Font(UI_FONT, UI_FONT_SIZE)
@@ -56,7 +57,6 @@ class GameOverScreen:
         elif keys[pygame.K_n]:
             pygame.quit()
             sys.exit()
-
 
     def display(self):
         screen = pygame.display.set_mode(self.screen_size)

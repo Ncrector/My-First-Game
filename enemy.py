@@ -4,6 +4,7 @@ from entity import Entity
 from support import *
 
 class Enemy(Entity):
+
     def __init__(self,monster_name,pos,groups, obstacle_sprites,damage_player, trigger_death_particles,add_exp):
 
         #general setup
@@ -36,7 +37,7 @@ class Enemy(Entity):
         # player interaction
         self.can_attack = True
         self.attack_time = None
-        self.attack_cooldown = 2000
+        self.attack_cooldown = 10000
         self.damage_player = damage_player
         self.trigger_death_particles = trigger_death_particles
         self.add_exp = add_exp
@@ -55,10 +56,16 @@ class Enemy(Entity):
         self.attack_sound.set_volume(0.1)
 
     def import_graphics(self,name):
-        self.animations = {'idle':[],'move':[],'attack':[]}
-        main_path = f'graphics/monsters/{name}/'
-        for animation in self.animations.keys():
-            self.animations[animation] = import_folder(main_path + animation)
+        if name == 'dragon':
+            self.animations = {'idle':[],'move_left':[],'move_right':[],'attack':[],'fireball':[],}
+            main_path = f'graphics/monsters/{name}/'
+            for animation in self.animations.keys():
+                self.animations[animation] = import_folder(main_path + animation)
+        else:
+            self.animations = {'idle':[],'move':[],'attack':[]}
+            main_path = f'graphics/monsters/{name}/'
+            for animation in self.animations.keys():
+                self.animations[animation] = import_folder(main_path + animation)
 
     def get_player_distance_direction(self, player):
         enemy_vec = pygame.math.Vector2(self.rect.center)
@@ -85,8 +92,7 @@ class Enemy(Entity):
             self.status = 'move'
         elif distance > self.attack_radius:
             self.status = 'idle'
-        
-        
+             
     def actions(self,player,):
         distance, direction = self.get_player_distance_direction(player)
 
@@ -103,6 +109,10 @@ class Enemy(Entity):
             self.direction = pygame.math.Vector2()
     
     def animate(self):
+        if self.monster_name == 'dragon':
+            self.animation_speed = 0.05
+        else:
+            self.animation_speed = 0.15
         animation = self.animations[self.status]
         # loop over the frame index
         self.frame_index += self.animation_speed
@@ -113,7 +123,10 @@ class Enemy(Entity):
 
         frame = animation[int(self.frame_index)]
         width, height = frame.get_size()
-        frame = pygame.transform.scale(frame, (width / 2, height / 2))
+        if self.monster_name == 'dragon':
+            frame = pygame.transform.scale(frame, (width * 1.5, height * 1.5))
+        else:
+            frame = pygame.transform.scale(frame, (width / 2, height / 2))
         self.image = frame
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
@@ -155,7 +168,6 @@ class Enemy(Entity):
             self.direction *= -self.resistance
             self.speed += self.resistance
         
-
     def update(self):
         self.hit_reaction()
         self.move(self.speed)
@@ -166,5 +178,3 @@ class Enemy(Entity):
     def enemy_update(self,player):
         self.get_status(player)
         self.actions(player)
-     
-

@@ -2,6 +2,7 @@ import pygame
 from settings import *
 
 class Upgrade:
+
     def __init__(self,player):
 
         # general setup
@@ -81,6 +82,7 @@ class Upgrade:
             item.display(self.display_surface, self.selection_index, name,value, max_value,cost)
         
 class Item:
+    
     def __init__(self,l,t,w,h,index,font):
         self.rect = pygame.Rect(l,t,w,h)
         self.index = index
