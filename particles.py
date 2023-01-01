@@ -3,8 +3,8 @@ from support import import_folder
 from random import choice
 
 class AnimationPlayer:
+    
     def __init__(self):
-      
         self.frames = {
          # magic
             'flame': import_folder('graphics/particles/flame/frames'),
@@ -40,7 +40,6 @@ class AnimationPlayer:
             self.reflect_images(import_folder('graphics/particles/leaf6'))
             )
         }
-    
 
     def reflect_images(self,frames):
         new_frames = []
@@ -67,7 +66,6 @@ class AnimationPlayer:
             scaled_frame = pygame.transform.scale(frame, (frame.get_width() // 2, frame.get_height() // 2))
             scaled_frames.append(scaled_frame)
         ParticleEffect(pos,scaled_frames,groups)
-
 
 class ParticleEffect(pygame.sprite.Sprite):
     

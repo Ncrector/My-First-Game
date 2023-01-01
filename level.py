@@ -13,6 +13,7 @@ from upgrade import Upgrade
 from magic import MagicPlayer
 
 class Level:
+  
   def __init__(self):
 
     # get the display surface
@@ -74,7 +75,8 @@ class Level:
                 Enemy('spirit',(x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,self.trigger_death_particles,self.add_xp)
               if col == 226:
                 Enemy('squid',(x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,self.trigger_death_particles,self.add_xp)
-
+              if col == 212:
+                Enemy('dragon',(x,y),[self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,self.trigger_death_particles,self.add_xp)
             
     self.player = Player((1596 , 4250), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack,self.create_magic)
 
@@ -143,6 +145,7 @@ class Level:
     return self.player.health
 
 class YSortCameraGroup(pygame.sprite.Group):
+
     def __init__(self):
 
         #general setup

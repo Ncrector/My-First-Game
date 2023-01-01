@@ -5,6 +5,7 @@ from entity import Entity
 
 
 class Player(Entity):
+    
     def __init__(self, pos, groups, obstacle_sprites, create_attack,destroy_attack, create_magic):
         super().__init__(groups)
         self.image = pygame.image.load("graphics/player/player.png").convert_alpha()
