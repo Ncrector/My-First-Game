@@ -47,4 +47,4 @@ monster_data = {
     'raccoon': {'health': 300,'exp':250,'damage':40,'attack_type': 'claw',  'attack_sound':'audio/attack/claw.wav','speed': 2, 'resistance': 5, 'attack_radius': 120, 'notice_radius': 400},
     'spirit': {'health': 100,'exp':110,'damage':12,'attack_type': 'thunder', 'attack_sound':'audio/attack/fireball.wav', 'speed': 2, 'resistance': 3, 'attack_radius': 20, 'notice_radius': 350},
     'bamboo': {'health': 70,'exp':120,'damage':6,'attack_type': 'leaf_attack', 'attack_sound':'audio/attack/slash.wav', 'speed': 3, 'resistance': 5, 'attack_radius': 50, 'notice_radius': 300},
-    'dragon': {'health': 500,'exp':1000,'damage':40,'attack_type': 'tailswipe', 'attack_sound':'audio/attack/slash.wav', 'speed': 1, 'resistance': 5, 'attack_radius': 50, 'notice_radius': 300}}
+    'dragon': {'health': 500,'exp':1000,'damage':6,'attack_type': 'claw', 'attack_sound':'audio/attack/slash.wav', 'speed': .5, 'resistance': 5, 'attack_radius': 160, 'notice_radius': 300}}

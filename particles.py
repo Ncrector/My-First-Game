@@ -1,6 +1,7 @@
 import pygame
 from support import import_folder
-from random import choice
+from random import choice, randint
+from settings import *
 
 class AnimationPlayer:
     
@@ -10,6 +11,7 @@ class AnimationPlayer:
             'flame': import_folder('graphics/particles/flame/frames'),
             'aura': import_folder('graphics/particles/aura'),
             'heal': import_folder('graphics/particles/heal/frames'),
+            'fireball': import_folder ('graphics/particles/fireball'),
 
         # attacks 
         'claw': import_folder('graphics/particles/claw'),
@@ -22,7 +24,7 @@ class AnimationPlayer:
         'squid': import_folder('graphics/particles/smoke_orange'),
         'raccoon': import_folder('graphics/particles/raccoon'),
         'spirit': import_folder('graphics/particles/nova'),
-        'bamboo': import_folder('graphics/particles/bamboo'),
+        'dragon': import_folder('graphics/particles/bamboo'),
         
         # leafs 
         'leaf': (
@@ -59,6 +61,15 @@ class AnimationPlayer:
         ParticleEffect(pos, scaled_frames,groups)
     
     def create_particles(self, animation_type,pos,groups):
+        animation_frames = self.frames[animation_type]
+        scaled_frames = []
+        for frame in animation_frames:
+            # Scale the image down by half
+            scaled_frame = pygame.transform.scale(frame, (frame.get_width() // 2, frame.get_height() // 2))
+            scaled_frames.append(scaled_frame)
+        ParticleEffect(pos,scaled_frames,groups)
+    
+    def fireball(self,animation_type,pos,groups):
         animation_frames = self.frames[animation_type]
         scaled_frames = []
         for frame in animation_frames:

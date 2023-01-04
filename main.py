@@ -18,7 +18,7 @@ class Game:
     def run(self):
       
       main_sound = pygame.mixer.Sound('audio/Epic1x.wav')
-      main_sound.set_volume(0.2)
+      main_sound.set_volume(0.1)
       main_sound.play(loops = -1)
 
       while True:

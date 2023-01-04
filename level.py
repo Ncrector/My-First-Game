@@ -11,6 +11,7 @@ from enemy import Enemy
 from particles import AnimationPlayer
 from upgrade import Upgrade
 from magic import MagicPlayer
+from dragon import Dragon
 
 class Level:
   
@@ -28,6 +29,7 @@ class Level:
     self.current_attack = None
     self.attack_sprites = pygame.sprite.Group()
     self.attackable_sprites = pygame.sprite.Group()
+    self.damage_sprites = pygame.sprite.Group()
 
     # sprite setup
     self.create_map()
@@ -76,7 +78,7 @@ class Level:
               if col == 226:
                 Enemy('squid',(x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,self.trigger_death_particles,self.add_xp)
               if col == 212:
-                Enemy('dragon',(x,y),[self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,self.trigger_death_particles,self.add_xp)
+                Dragon('dragon',(x,y),[self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,self.trigger_death_particles,self.add_xp, self.create_fireball)
             
     self.player = Player((1596 , 4250), [self.visible_sprites], self.obstacle_sprites, self.create_attack, self.destroy_attack,self.create_magic)
 
@@ -89,6 +91,9 @@ class Level:
 
     if style == 'flame':
       self.magic_player.flame(self.player,cost,[self.visible_sprites,self.attack_sprites])
+  
+  def create_fireball(self,animation_type,pos):
+      self.animation_player.fireball(pos, animation_type,[self.visible_sprites,self.damage_sprites])
     
   def destroy_attack(self):
     if self.current_attack:
@@ -115,7 +120,7 @@ class Level:
       self.player.health -= amount
       self.player.vulnerable = False
       self.player.hurt_time = pygame.time.get_ticks()
-      self.animation_player.create_particles(attack_type, self.player.rect.center,[self.visible_sprites] )
+      self.animation_player.create_particles(attack_type, self.player.rect.center,[self.visible_sprites,self.damage_sprites] )
 
   def trigger_death_particles(self,pos,particle_type):
     self.animation_player.create_particles(particle_type,pos, self.visible_sprites)

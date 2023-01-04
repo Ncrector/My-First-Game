@@ -36,8 +36,10 @@ class Enemy(Entity):
 
         # player interaction
         self.can_attack = True
+        self.fireball_can_attack = True
         self.attack_time = None
-        self.attack_cooldown = 10000
+        self.attack_cooldown = 1000
+    
         self.damage_player = damage_player
         self.trigger_death_particles = trigger_death_particles
         self.add_exp = add_exp
@@ -56,16 +58,12 @@ class Enemy(Entity):
         self.attack_sound.set_volume(0.1)
 
     def import_graphics(self,name):
-        if name == 'dragon':
-            self.animations = {'idle':[],'move_left':[],'move_right':[],'attack':[],'fireball':[],}
-            main_path = f'graphics/monsters/{name}/'
-            for animation in self.animations.keys():
-                self.animations[animation] = import_folder(main_path + animation)
-        else:
-            self.animations = {'idle':[],'move':[],'attack':[]}
-            main_path = f'graphics/monsters/{name}/'
-            for animation in self.animations.keys():
-                self.animations[animation] = import_folder(main_path + animation)
+       
+        
+        self.animations = {'idle':[],'move':[],'attack':[]}
+        main_path = f'graphics/monsters/{name}/'
+        for animation in self.animations.keys():
+            self.animations[animation] = import_folder(main_path + animation)
 
     def get_player_distance_direction(self, player):
         enemy_vec = pygame.math.Vector2(self.rect.center)
@@ -82,37 +80,41 @@ class Enemy(Entity):
      
     def get_status(self, player):
         distance = self.get_player_distance_direction(player)[0]
+        direction = self.get_player_distance_direction(player)[1]
 
         if distance <= self.attack_radius and self.can_attack:
             if self.status != 'attack':
                 self.frame_index = 0
             self.status = 'attack'
             self.direction = pygame.math.Vector2()
+            self.can_attack = False
+
         elif distance <= self.notice_radius and self.status != 'attack':
-            self.status = 'move'
+                self.status = 'move'
+
         elif distance > self.attack_radius:
             self.status = 'idle'
-             
-    def actions(self,player,):
-        distance, direction = self.get_player_distance_direction(player)
 
+        else:
+            self.status = 'idle'
+             
+    def actions(self,player):
+        distance, direction = self.get_player_distance_direction(player)
+        
         if self.status == 'attack':
             self.attack_time = pygame.time.get_ticks()
             self.damage_player(self.attack_damage,self.attack_type)
             self.attack_sound.play()
         elif self.status == 'move':
-            if distance > self.notice_radius:
-                return
             if distance > self.attack_radius:
                 self.direction = self.get_player_distance_direction(player)[1]
         else:
             self.direction = pygame.math.Vector2()
-    
+
     def animate(self):
-        if self.monster_name == 'dragon':
-            self.animation_speed = 0.05
-        else:
-            self.animation_speed = 0.15
+
+        self.animation_speed = 0.15
+
         animation = self.animations[self.status]
         # loop over the frame index
         self.frame_index += self.animation_speed
@@ -123,10 +125,7 @@ class Enemy(Entity):
 
         frame = animation[int(self.frame_index)]
         width, height = frame.get_size()
-        if self.monster_name == 'dragon':
-            frame = pygame.transform.scale(frame, (width * 1.5, height * 1.5))
-        else:
-            frame = pygame.transform.scale(frame, (width / 2, height / 2))
+        frame = pygame.transform.scale(frame, (width / 2, height / 2))
         self.image = frame
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
@@ -142,7 +141,6 @@ class Enemy(Entity):
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.can_attack = True
 
-        
         if not self.vulnerable:
             if current_time - self.hit_time >= self.invincibility_duration:
                 self.vulnerable = True
@@ -167,7 +165,7 @@ class Enemy(Entity):
         if not self.vulnerable:
             self.direction *= -self.resistance
             self.speed += self.resistance
-        
+ 
     def update(self):
         self.hit_reaction()
         self.move(self.speed)
