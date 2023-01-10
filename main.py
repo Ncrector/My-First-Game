@@ -14,7 +14,7 @@ class Game:
         self.level = Level()
 
         self.game_over_sound_played = False
-   
+
     def run(self):
       
       main_sound = pygame.mixer.Sound('audio/Epic1x.wav')
@@ -36,7 +36,6 @@ class Game:
           if self.level.get_players_health() <= 0:
               self.level.game_paused = True
               main_sound.stop()
-              
               if not self.game_over_sound_played:  # Only play the game over sound if it hasn't been played already
                   game_over_sound = pygame.mixer.Sound('audio/NoHope.wav')
                   game_over_sound.set_volume(.5)

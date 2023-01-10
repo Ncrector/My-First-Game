@@ -69,14 +69,10 @@ class AnimationPlayer:
             scaled_frames.append(scaled_frame)
         ParticleEffect(pos,scaled_frames,groups)
     
-    def fireball(self,animation_type,pos,groups):
-        animation_frames = self.frames[animation_type]
-        scaled_frames = []
-        for frame in animation_frames:
-            # Scale the image down by half
-            scaled_frame = pygame.transform.scale(frame, (frame.get_width() // 2, frame.get_height() // 2))
-            scaled_frames.append(scaled_frame)
-        ParticleEffect(pos,scaled_frames,groups)
+    def create_fireball(self, pos, direction, groups):
+        animation_frames = self.frames['fireball']
+        Fireball(pos, animation_frames, direction, groups)
+    
 
 class ParticleEffect(pygame.sprite.Sprite):
     
@@ -98,4 +94,36 @@ class ParticleEffect(pygame.sprite.Sprite):
             self.image = self.frames[int(self.frame_index)]
 
     def update (self):
+        self.animate()
+    
+
+class Fireball(pygame.sprite.Sprite):
+    def __init__(self, pos, animation_frames, direction, groups):
+        
+        super().__init__(groups)
+        self.sprite_type = 'fire'
+        self.frame_index = 0
+        self.direction = direction
+        self.frames = animation_frames
+        self.image = self.frames[self.frame_index]
+        # creates the fireballs position depending direction facing
+        if self.direction.x < 0:
+            self.rect = self.image.get_rect(bottomleft = (pos[0] - 100, pos[1] + 100))
+        else:
+            self.rect = self.image.get_rect(bottomleft = (pos[0] + 110, pos[1] + 90))
+        self.image_depth = 1
+        
+        self.animation_speed = .15
+        self.speed = 3  # Add a speed attribute
+    
+    def animate(self):
+        self.frame_index += self.animation_speed
+        if self.frame_index >= len(self.frames):
+            self.frame_index = 0
+        else:
+            self.image = self.frames[int(self.frame_index)]
+    
+    def update (self):
+        self.rect.x += self.direction[0] * self.speed
+        self.rect.y += self.direction[1] * self.speed
         self.animate()

@@ -38,19 +38,21 @@ class Dragon(Entity):
 
         # fireball stats
         self.create_fireball = create_fireball
+        self.has_casted = False
         self.sounds = {
         'flame':pygame.mixer.Sound('audio/Fire.wav')
         }
         self.sounds['flame'].set_volume(0.1)
         self.fireball_speed = .5
-        self.fire_ball_coowldown = 3000
+        self.fire_ball_coowldown = 10000
         self.fireball_damage = 30
 
         # player interaction
         self.can_attack = True
         self.fireball_can_attack = True
         self.attack_time = None
-        self.attack_cooldown = 5000
+        self.fireball_time = None
+        self.attack_cooldown = 4000
     
         self.damage_player = damage_player
         self.trigger_death_particles = trigger_death_particles
@@ -59,7 +61,7 @@ class Dragon(Entity):
         # invincibility timer
         self.vulnerable = True
         self.hit_time = None
-        self.invincibility_duration = 500
+        self.invincibility_duration = 1500
 
         # sounds
         self.death_sound = pygame.mixer.Sound("audio/death.wav")
@@ -70,7 +72,7 @@ class Dragon(Entity):
         self.attack_sound.set_volume(0.1)
 
     def import_graphics(self,name):
-        self.animations = {'idle':[],'move_left':[],'move_right':[],'attack':[],'fireball':[],}
+        self.animations = {'idle':[],'move_left':[],'move_right':[],'attack':[],'fireball_left':[],'fireball_right':[]}
         main_path = f'graphics/monsters/{name}/'
         for animation in self.animations.keys():
             self.animations[animation] = import_folder(main_path + animation)
@@ -90,27 +92,32 @@ class Dragon(Entity):
 
     def actions(self,player):
         distance, direction = self.get_player_distance_direction(player)
-        
-        if self.status == 'attack':
+        if self.status == 'attack' and self.can_attack:
             self.attack_type = 'claw'
             self.attack_time = pygame.time.get_ticks()
             self.damage_player(self.attack_damage,self.attack_type)
             self.attack_sound.play()
-        elif self.status == 'fireball':
-            animation_type = 'fireball'
-            self.attack_type = 'flame'
-            self.attack_time = pygame.time.get_ticks()
-            pos = self.rect.x,self.rect.y
+        
+        if self.status == 'fireball_left' or self.status == 'fireball_right':
+            
+            self.fireball_time = pygame.time.get_ticks()
+            if not self.has_casted:
+                self.cast_fireball(direction)
+                self.has_casted = True
+  
+            
+        if self.status != 'fireball_left' and self.status != 'fireball_right':
+            self.has_casted = False
 
-            self.create_fireball(pos, animation_type)
-            self.sounds['flame'].play()
-            self.damage_player(self.attack_damage,self.attack_type)
-
-        elif self.status == 'move_left' or self.status == 'move_right':
+        if self.status == 'move_left' or self.status == 'move_right':
             if distance > self.attack_radius:
                 self.direction = self.get_player_distance_direction(player)[1]
         else:
             self.direction = pygame.math.Vector2()
+
+    def cast_fireball(self,direction):
+        self.sounds['flame'].play()
+        self.create_fireball((self.hitbox.x,self.hitbox.y),direction)
 
     def get_status(self, player):
         distance = self.get_player_distance_direction(player)[0]
@@ -121,14 +128,18 @@ class Dragon(Entity):
                 self.frame_index = 0
             self.status = 'attack'
             self.direction = pygame.math.Vector2()
-            self.can_attack = False
-        
-        elif distance <= self.notice_radius and self.status != 'attack' and self.fireball_can_attack:
-            if self.status != 'fireball':
+
+        elif distance <= self.notice_radius and self.fireball_can_attack and direction.x < 0:
+            if self.status != 'fireball_left':
                 self.frame_index = 0
-            self.status = 'fireball'
-            self.direction =pygame.math.Vector2()
-            self.fireball_can_attack = False
+            self.status = 'fireball_left'
+            self.direction = pygame.math.Vector2()
+        
+        elif distance <= self.notice_radius and self.fireball_can_attack and direction.x > 0:
+            if self.status != 'fireball_right':
+                self.frame_index = 0
+            self.status = 'fireball_right'
+            self.direction = pygame.math.Vector2()
 
         elif distance <= self.notice_radius and self.status != 'attack' and self.status != 'fireball':
             if direction.x > 0:
@@ -141,23 +152,17 @@ class Dragon(Entity):
 
         else:
             self.status = 'idle'
-        
-        if self.status == 'fireball':
-            print(self.status)
     
     def animate(self):
-
-        if self.status == 'fireball':
-            self.animation_speed = 0.01
-        else:
-            self.animation_speed = 0.05
+        
+        self.animation_speed = 0.05
 
         animation = self.animations[self.status]
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):
             if self.status == 'attack':
                 self.can_attack = False
-            if self.status == 'fireball':
+            if self.status == 'fireball_left' or self.status == 'fireball_right':
                 self.fireball_can_attack = False
             self.frame_index = 0
 
@@ -179,7 +184,7 @@ class Dragon(Entity):
             if attack_type == 'weapon':
                 self.health -= player.get_full_weapon_damage()
             else:
-                pass
+                self.health -= player.get_full_magic_damage()
             self.hit_time = pygame.time.get_ticks()
             self.vulnerable = False
 
@@ -200,61 +205,23 @@ class Dragon(Entity):
                 self.vulnerable = True
         
         if not self.fireball_can_attack:
-            if current_time - self.attack_time >= self.attack_cooldown:
+            if current_time - self.fireball_time >= self.attack_cooldown:
                 self.fireball_can_attack = True
 
     def hit_reaction(self):
         if not self.vulnerable:
             self.direction *= -self.resistance
             self.speed += self.resistance
-
    
-
-
-    """ def shoot_fireball(self, player,groups):
-        distance = self.get_player_distance_direction(player)[0]
-        direction = self.get_player_distance_direction(player)[1]
-        # Create a fireball sprite and add it to the sprite group
-        self.attack_time = pygame.time.get_ticks()
-        for i in range(1,6):
-            if self.direction.x: #horizontal
-                offset_x = (self.direction.x * i) * TILESIZE
-                x = self.rect.centerx + offset_x + randint(-TILESIZE // 3, TILESIZE // 3)
-                y = self.rect.centery + randint(-TILESIZE // 3, TILESIZE // 3)
-                self.animation_player.create_particles('fireball',(x,y),groups)
-            else: # vertical
-                offset_y = (self.direction.y * i) * TILESIZE
-                x = self.rect.centerx + randint(-TILESIZE // 3, TILESIZE // 3)
-                y = self.rect.centery + offset_y + randint(-TILESIZE // 3, TILESIZE // 3)
-                self.animation_player.create_particles('fireball',(x,y),groups) """
-    
-             
-        
     def update(self):
         self.hit_reaction()
         self.move(self.speed)
         self.animate()
         self.cooldown()
         self.check_death()
+
     
     def enemy_update(self,player):
         self.get_status(player)
         self.actions(player)
 
-""" class Fireball(Entity):
-
-    def __init__(self, pos, speed, damage, groups):
-        super().__init__(groups)
-        self.image = pygame.Surface((40, 40))  # Replace this with the fireball graphic
-        self.image.fill((255, 0, 0))  # Replace this with the fireball color
-        self.rect = self.image.get_rect(center=pos)
-        self.speed = speed
-        self.damage = damage
-        self.hitbox = self.rect.inflate(0, -20)
-        self.velocity = Vector2()
-    
-    def update(self):
-        self.rect.move_ip(self.velocity)
-        # Check if the fireball has gone off the screen
-        if self.attack_time > 500:
-            self.kill() """
