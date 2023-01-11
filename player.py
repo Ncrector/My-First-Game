@@ -12,6 +12,7 @@ class Player(Entity):
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(0, -20)
         self.image_depth = 1
+        self.sprite_type = 'player'
 
         # graphics setup
         self.import_player_assets()
@@ -51,11 +52,11 @@ class Player(Entity):
         # damage timer
         self.vulnerable = True
         self.hurt_time = None
-        self.invulnerability_duration = 10000
+        self.invulnerability_duration = 5000
 
         # import a sound
         self.weapon_attack_sound = pygame.mixer.Sound('audio/sword.wav')
-        self.weapon_attack_sound.set_volume(0.1)
+        self.weapon_attack_sound.set_volume(0.05)
 
     def import_player_assets(self):
         character_path = "graphics/player/"
@@ -114,7 +115,6 @@ class Player(Entity):
                 self.attack_time = pygame.time.get_ticks()
                 self.create_attack()
                 self.weapon_attack_sound.play()
-                print(self.stats)
         
             # magic input
             if keys[pygame.K_LCTRL]:

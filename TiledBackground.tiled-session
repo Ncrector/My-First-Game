@@ -5,9 +5,9 @@
     },
     "activeFile": "TiledMap.tmx",
     "expandedProjectPaths": [
+        ".",
         "TSS files",
-        "graphics",
-        "."
+        "graphics"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -105,11 +105,11 @@
             "scaleInEditor": 1.5
         },
         "TiledMap.tmx": {
-            "scale": 0.5,
+            "scale": 0.33,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 1897,
-                "y": 2460
+                "x": 3089.3939393939395,
+                "y": 3206.060606060606
             }
         },
         "grass_1.tsx": {
