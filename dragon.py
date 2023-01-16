@@ -46,7 +46,7 @@ class Dragon(Entity):
         self.fireball_speed = .5
         self.fire_ball_coowldown = 10000
         self.fireball_damage = 30
-
+        
         # player interaction
         self.can_attack = True
         self.fireball_can_attack = True

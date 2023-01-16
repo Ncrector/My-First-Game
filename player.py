@@ -8,9 +8,9 @@ class Player(Entity):
     
     def __init__(self, pos, groups, obstacle_sprites, create_attack,destroy_attack, create_magic):
         super().__init__(groups)
-        self.image = pygame.image.load("graphics/player/player.png").convert_alpha()
+        self.image = pygame.image.load("graphics/knight/player.png").convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
-        self.hitbox = self.rect.inflate(0, -20)
+        self.hitbox = self.rect.inflate(-10, -20)
         self.image_depth = 1
         self.sprite_type = 'player'
 
@@ -23,6 +23,7 @@ class Player(Entity):
         self.attack_cooldown = 200
         self.attack_time = None
         self.obstacle_sprites = obstacle_sprites
+        self.animation_speed = .1
 
         # weapon
         self.create_attack = create_attack
@@ -59,7 +60,7 @@ class Player(Entity):
         self.weapon_attack_sound.set_volume(0.05)
 
     def import_player_assets(self):
-        character_path = "graphics/player/"
+        character_path = "graphics/knight/"
         self.animations = {
             "up": [],
             "down": [],
@@ -81,11 +82,7 @@ class Player(Entity):
 
         # resizing 64x64 images into 32x32
         for key, images in self.animations.items():
-            resized_images = []
-            for image in images:
-                resized_image = pygame.transform.scale(image, (32, 32))
-                resized_images.append(resized_image)
-            self.animations[key] = resized_images
+            self.animations[key] = images
 
     def input(self):
         if not self.attacking:
@@ -197,7 +194,10 @@ class Player(Entity):
             if current_time - self.hurt_time >= self.switch_duration_cooldown:
                 self.vulnerable = True
 
-    def animate(self):
+    def animate(self): 
+        if 'idle' in self.status:
+            self.animation_speed = .05
+            
         animation = self.animations[self.status]
 
         # loop over the frame index
