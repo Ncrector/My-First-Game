@@ -28,6 +28,7 @@ class Enemy(Entity):
         self.health = monster_info['health']
         self.exp = monster_info['exp']
         self.speed = monster_info['speed']
+        self.velocity = (self.speed*self.direction.x, self.speed*self.direction.y)
         self.attack_damage = monster_info['damage']
         self.resistance = monster_info['resistance']
         self.attack_radius = monster_info['attack_radius']
@@ -154,6 +155,30 @@ class Enemy(Entity):
                 self.health -= player.get_full_magic_damage()
             self.hit_time = pygame.time.get_ticks()
             self.vulnerable = False
+    
+    def detect_collision(self, sprite1, sprite2, overlap=0.5):
+        if sprite1.hitbox.colliderect(sprite2.hitbox):
+            # Get the collision offset
+            offset_x = sprite1.hitbox.x - sprite2.hitbox.x
+            offset_y = sprite1.hitbox.y - sprite2.hitbox.y
+            # Get the absolute values of the offsets
+            abs_offset_x = abs(offset_x)
+            abs_offset_y = abs(offset_y)
+            # Check which axis has the largest offset
+            if abs_offset_x > abs_offset_y:
+                # Move the sprite on the x-axis
+                if offset_x * overlap > 0:
+                    sprite1.hitbox.right += 1
+                else:
+                    sprite1.hitbox.left -= 1
+            else:
+                # Move the sprite on the y-axis
+                if offset_y * overlap > 0:
+                    sprite1.hitbox.bottom -= 1
+                else:
+                    sprite1.hitbox.top += 1
+
+
 
     def check_death(self):
         if self.health <= 0:
