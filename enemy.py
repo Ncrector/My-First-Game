@@ -14,7 +14,6 @@ class Enemy(Entity):
         # graphics
         self.import_graphics(monster_name)
         self.status = 'idle'
-        self.image_depth = 1
         self.image = self.animations[self.status][self.frame_index]
         # resize image
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 2, self.image.get_height() // 2))
@@ -70,10 +69,11 @@ class Enemy(Entity):
         enemy_vec = pygame.math.Vector2(self.rect.center)
         player_vec = pygame.math.Vector2(player.rect.center)
         distance = (player_vec - enemy_vec).magnitude()
+        
 
         if distance > 0:
             direction = (player_vec - enemy_vec).normalize()
-            self.speed = 1.5
+            
         else:
             direction = pygame.math.Vector2()
 
@@ -82,10 +82,10 @@ class Enemy(Entity):
     def get_status(self, player):
         distance = self.get_player_distance_direction(player)[0]
         direction = self.get_player_distance_direction(player)[1]
-
+        
+        self.speed = monster_data[self.monster_name]['speed']
         if distance <= self.attack_radius and self.can_attack:
-            if self.status != 'attack':
-                self.frame_index = 0
+           
             self.status = 'attack'
             self.direction = pygame.math.Vector2()
             self.can_attack = False
@@ -106,9 +106,11 @@ class Enemy(Entity):
             self.attack_time = pygame.time.get_ticks()
             self.damage_player(self.attack_damage,self.attack_type)
             self.attack_sound.play()
+
         elif self.status == 'move':
             if distance > self.attack_radius:
-                self.direction = self.get_player_distance_direction(player)[1]
+                self.direction = direction
+
         else:
             self.direction = pygame.math.Vector2()
 
@@ -193,8 +195,9 @@ class Enemy(Entity):
  
     def update(self):
         self.hit_reaction()
-        self.move(self.speed)
+        
         self.animate()
+        self.move(self.speed)
         self.cooldown()
         self.check_death()
     

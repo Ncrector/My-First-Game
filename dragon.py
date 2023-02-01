@@ -16,7 +16,6 @@ class Dragon(Entity):
         monster_name = 'dragon'
         self.import_graphics(monster_name)
         self.status = 'idle'
-        self.image_depth = 1
         self.image = self.animations[self.status][self.frame_index]
         # resize image
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 2, self.image.get_height() // 2))

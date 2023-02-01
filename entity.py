@@ -9,14 +9,22 @@ class Entity(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
 
     def move(self, speed):
-        if self.direction.magnitude() != 0:
-            self.direction = self.direction.normalize()
         
-        self.hitbox.x += self.direction.x * speed
+        if self.direction.x > 0:
+            self.hitbox.x += 1 * speed
+        elif self.direction.x < 0:
+            self.hitbox.x += -1 * speed
         self.collision('horizontal')
-        self.hitbox.y += self.direction.y * speed
+
+        
+        if self.direction.y > 0:
+            self.hitbox.y += 1 * speed
+        elif self.direction.y < 0:
+            self.hitbox.y += -1 * speed   
         self.collision('vertical')
+
         self.rect.center = self.hitbox.center
+        
 
     def collision(self, direction):
         if direction == 'horizontal':

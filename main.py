@@ -1,3 +1,4 @@
+
 import pygame, sys
 from level import Level
 from settings import *
@@ -6,14 +7,14 @@ from debug import *
 class Game:
     def __init__(self):
       
-        pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("Adventure Game")
-        self.clock = pygame.time.Clock()
+      pygame.init()
+      self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+      pygame.display.set_caption("Adventure Game")
+      self.clock = pygame.time.Clock()
 
-        self.level = Level()
+      self.level = Level()
 
-        self.game_over_sound_played = False
+      self.game_over_sound_played = False
 
     def run(self):
       

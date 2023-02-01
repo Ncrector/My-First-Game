@@ -105,10 +105,46 @@ class UI:
         text_rect = text_surf.get_rect(center=(bg_rect.centerx, bg_rect.bottom + 15))
         self.display_surface.blit(text_surf, text_rect)
 
+    def player_stats(self, player):
+        rect_height = self.display_surface.get_size()[1] / 2
+        rect_width = 15 # Position the rectangle on the very left side of the screen
+        rect = pygame.Rect(rect_width, rect_height - 72, 100, 150) # Adjust the position and size of the rectangle
+        # Draw the rectangle with a gray fill at 50% opacity
+        gray = (128, 128, 128)
+        rect_fill = pygame.Surface((rect.width, rect.height))
+        rect_fill.fill(gray)
+        rect_fill.set_alpha(128) 
+        self.display_surface.blit(rect_fill, (rect.x, rect.y))
+        pygame.draw.rect(self.display_surface, UI_BORDER_COLOR, rect,3)
+
+        # Get the player's stats
+        attack = int(player.stats['attack'])
+        magic = int(player.stats['magic'])
+        speed = int(player.stats['speed'])
+        health = int(player.stats['health'])
+        energy = int(player.stats['energy'])
+
+        # Render the stats text
+        self.font = pygame.font.Font(None, 23)
+        attack_text = self.font.render("Attack: " + str(attack), False, TEXT_COLOR)
+        magic_text = self.font.render("Magic: " + str(magic), False, TEXT_COLOR)
+        speed_text = self.font.render("Speed: " + str(speed), False, TEXT_COLOR)
+        health_text = self.font.render("health: " + str(health), False, TEXT_COLOR)
+        energy_text = self.font.render("mana: " + str(energy), False, TEXT_COLOR)
+
+        # Blit the text to the screen inside the rectangle
+        self.display_surface.blit(attack_text, (rect_width + 10, rect_height - 67.5 + 10))
+        self.display_surface.blit(magic_text, (rect_width + 10, rect_height - 67.5 + 35))
+        self.display_surface.blit(speed_text, (rect_width + 10, rect_height - 67.5 + 60))
+        self.display_surface.blit(health_text, (rect_width + 10, rect_height - 67.5 + 85))
+        self.display_surface.blit(energy_text, (rect_width + 10, rect_height - 67.5 + 110))
+
+
     def display(self, player):
         self.show_bar(player.health, player.stats['health'],self.health_bar_rect, HEALTH_COLOR)
         self.show_bar(player.energy, player.stats['energy'],self.energy_bar_rect, ENERGY_COLOR)
 
+        self.player_stats(player)
         self.show_exp(player.exp)
         self.upgrade_menu()
         self.weapon_overlay(player.weapon_index,not player.can_switch_weapon)

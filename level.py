@@ -17,6 +17,7 @@ from slime import Slime
 class Level:
   
   def __init__(self):
+    
 
     # get the display surface
     self.display_surface = pygame.display.get_surface()
@@ -74,7 +75,7 @@ class Level:
               Tile((x,y), [self.obstacle_sprites],'invisible')
             if style == 'grass' and col == 0:
               random_grass_image = choice(graphics['grass'])
-              Tile((x,y), [self.visible_sprites,self.obstacle_sprites,self.attackable_sprites],'grass', random_grass_image,1)
+              Tile((x,y), [self.visible_sprites,self.obstacle_sprites,self.attackable_sprites],'grass', random_grass_image)
             if style == 'entities':
               if col == 0:
                 Enemy('spirit',(x,y), [self.visible_sprites,self.attackable_sprites, self.enemy_sprite], self.obstacle_sprites, self.damage_player,self.trigger_death_particles,self.add_xp)
@@ -83,7 +84,7 @@ class Level:
               if col == 212:
                 Dragon('dragon',(x,y),[self.visible_sprites,self.attackable_sprites, self.enemy_sprite], self.obstacle_sprites, self.damage_player,self.trigger_death_particles,self.add_xp,self.create_fireball)
               if col == 272:
-                Slime('slime',(x,y),[self.visible_sprites,self.attackable_sprites,self.enemy_sprite], self.obstacle_sprites)
+                Slime('slime',(x,y),[self.visible_sprites,self.attackable_sprites,self.enemy_sprite], self.obstacle_sprites, self.damage_player,self.trigger_death_particles, self.add_xp, self.create_slimeball)
 
     self.player = Player((1596 , 4150), [self.visible_sprites,self.player_sprite], self.obstacle_sprites, self.create_attack, self.destroy_attack,self.create_magic)
 
@@ -99,6 +100,9 @@ class Level:
   
   def create_fireball(self,pos,direction):
     self.animation_player.create_fireball(pos, direction, [self.visible_sprites, self.damage_sprites])
+  
+  def create_slimeball(self,pos,direction):
+    self.animation_player.create_slimeball(pos,direction, [self.visible_sprites, self.damage_sprites])
   
     
   def destroy_attack(self):
@@ -215,7 +219,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         floor_offset_pos = self.floor_rect.topleft - self.offset
         self.display_surface.blit(self.floor_surf,floor_offset_pos)
         #draws the sprites in order so the player is properly behind or infront of other sprites
-        for sprite in sorted(self.sprites(), key = lambda sprite: (sprite.image_depth, sprite.rect.centery)):
+        for sprite in sorted(self.sprites(), key = lambda sprite: (sprite.rect.centery)):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image,offset_pos)
 
