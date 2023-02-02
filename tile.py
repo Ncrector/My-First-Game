@@ -4,10 +4,9 @@ from random import choice
 
 class Tile(pygame.sprite.Sprite):
 
-    def __init__(self, pos, groups,sprite_type,surface = pygame.Surface((TILESIZE,TILESIZE)), image_depth = 0):
+    def __init__(self, pos, groups,sprite_type,surface = pygame.Surface((TILESIZE,TILESIZE))):
         super().__init__(groups)
         self.sprite_type = sprite_type
         self.image = surface
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(0, 0)
-        self.image_depth = image_depth

@@ -11,7 +11,6 @@ class Player(Entity):
         self.image = pygame.image.load("graphics/knight/player.png").convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(-10, -20)
-        self.image_depth = 1
         self.sprite_type = 'player'
 
         # graphics setup
@@ -149,8 +148,8 @@ class Player(Entity):
                 self.can_switch_magic = False
 
     def get_status(self):
-
         # idle status
+
         if self.direction.x == 0 and self.direction.y == 0:
             if not "idle" in self.status and not "attack" in self.status:
                 self.status = self.status + "_idle"
@@ -231,11 +230,25 @@ class Player(Entity):
             self.energy += 0.01 * self.stats['magic']
         else:
             self.energy = self.stats['energy']
+    
+    def player_move(self, speed):
+        if self.direction.x > 0:
+            self.hitbox.x += 1 * speed
+        elif self.direction.x < 0:
+            self.hitbox.x += -1 * speed
+        self.collision('horizontal')
+
+        if self.direction.y > 0:
+            self.hitbox.y += 1 * speed
+        elif self.direction.y < 0:
+            self.hitbox.y += -1 * speed   
+        self.collision('vertical')
+        self.rect.center = self.hitbox.center
 
     def update(self):
         self.input()
         self.cooldowns()
         self.get_status()
         self.animate()
-        self.move(self.stats["speed"])
+        self.player_move(self.stats["speed"])
         self.energy_recovery()

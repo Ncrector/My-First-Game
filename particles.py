@@ -12,6 +12,8 @@ class AnimationPlayer:
             'aura': import_folder('graphics/particles/aura'),
             'heal': import_folder('graphics/particles/heal/frames'),
             'fireball': import_folder ('graphics/particles/fireball'),
+            'slimeball': import_folder('graphics/particles/slimeball'),
+            
 
         # attacks 
         'claw': import_folder('graphics/particles/claw'),
@@ -25,6 +27,7 @@ class AnimationPlayer:
         'raccoon': import_folder('graphics/particles/raccoon'),
         'spirit': import_folder('graphics/particles/nova'),
         'dragon': import_folder('graphics/particles/bamboo'),
+        'slime': import_folder('graphics/particles/bamboo'),
         
         # leafs 
         'leaf': (
@@ -73,6 +76,10 @@ class AnimationPlayer:
         animation_frames = self.frames['fireball']
         Fireball(pos, animation_frames, direction, groups)
     
+    def create_slimeball(self,pos,direction,groups):
+        animation_frames = self.frames['slimeball']
+        Slimeball(pos,animation_frames,direction,groups)
+    
 
 class ParticleEffect(pygame.sprite.Sprite):
     
@@ -111,7 +118,7 @@ class Fireball(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(bottomleft = (pos[0] - 100, pos[1] + 100))
         else:
             self.rect = self.image.get_rect(bottomleft = (pos[0] + 110, pos[1] + 90))
-        self.image_depth = 1
+        
         
         self.animation_speed = .15
         self.speed = 3  # Add a speed attribute
@@ -122,6 +129,37 @@ class Fireball(pygame.sprite.Sprite):
             self.frame_index = 0
         else:
             self.image = self.frames[int(self.frame_index)]
+    
+    def update (self):
+        self.rect.x += self.direction[0] * self.speed
+        self.rect.y += self.direction[1] * self.speed
+        self.animate()
+
+class Slimeball(pygame.sprite.Sprite):
+    def __init__(self, pos, animation_frames, direction, groups):
+        
+        super().__init__(groups)
+        self.sprite_type = 'slime'
+        self.frame_index = 0
+        self.direction = direction
+        self.frames = animation_frames
+        self.image = self.frames[self.frame_index]
+        # creates the fireballs position depending direction facing
+        self.speed = 3  # Add a speed attribute
+        self.animation_speed = .15
+        self.speed = 3  # Add a speed attribute
+        if self.direction.x < 0:
+            self.rect = self.image.get_rect(bottomleft = (pos[0] - 30, pos[1] + 25))
+        else:
+            self.rect = self.image.get_rect(bottomleft = (pos[0] + 25, pos[1] + 25))
+
+    def animate(self):
+        self.frame_index += self.animation_speed
+        if self.frame_index >= len(self.frames):
+            self.frame_index = 0
+        else:
+            self.image = self.frames[int(self.frame_index)]
+
     
     def update (self):
         self.rect.x += self.direction[0] * self.speed
