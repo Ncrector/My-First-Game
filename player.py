@@ -22,7 +22,7 @@ class Player(Entity):
         self.attack_cooldown = 200
         self.attack_time = None
         self.obstacle_sprites = obstacle_sprites
-        self.animation_speed = .1
+        self.animation_speed = .17
 
         # weapon
         self.create_attack = create_attack

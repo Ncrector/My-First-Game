@@ -10,7 +10,7 @@ from particles import *
 class Dragon(Entity):
     def __init__(self,monster_name, pos, groups, obstacle_sprites, damage_player, trigger_death_particles, add_exp, create_fireball):
         super().__init__(groups)
-        self.sprite_type = 'enemy' 
+        self.sprite_type = 'dragon' 
           
         # graphics
         monster_name = 'dragon'

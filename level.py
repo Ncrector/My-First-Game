@@ -86,7 +86,7 @@ class Level:
               if col == 272:
                 Slime('slime',(x,y),[self.visible_sprites,self.attackable_sprites,self.enemy_sprite], self.obstacle_sprites, self.damage_player,self.trigger_death_particles, self.add_xp, self.create_slimeball)
 
-    self.player = Player((1596 , 4150), [self.visible_sprites,self.player_sprite], self.obstacle_sprites, self.create_attack, self.destroy_attack,self.create_magic)
+    self.player = Player((3200 , 4500), [self.visible_sprites,self.player_sprite], self.obstacle_sprites, self.create_attack, self.destroy_attack,self.create_magic)
 
   def create_attack(self):
     self.current_attack = Weapon(self.player,[self.visible_sprites,self.attack_sprites])
@@ -114,6 +114,8 @@ class Level:
     if self.enemy_sprite:
         self.enemy_list = self.enemy_sprite.copy()
         for colliding_sprite in self.enemy_list:
+            if colliding_sprite.sprite_type == 'dragon':
+                continue
             self.enemy_list.remove(colliding_sprite)
             collided_sprites = pygame.sprite.spritecollide(colliding_sprite, self.enemy_list, False)
             if collided_sprites:
