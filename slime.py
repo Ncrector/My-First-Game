@@ -108,7 +108,7 @@ class Slime(Entity):
     def get_status(self, player):
         distance = self.get_player_distance_direction(player)[0]
         direction = self.get_player_distance_direction(player)[1]
-        print(self.status)
+        
         self.speed = monster_data[self.monster_name]['speed']
        
 

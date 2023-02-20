@@ -115,7 +115,7 @@ class Level:
         self.enemy_list = self.enemy_sprite.copy()
         for colliding_sprite in self.enemy_list:
             if colliding_sprite.sprite_type == 'dragon':
-                continue
+                return
             self.enemy_list.remove(colliding_sprite)
             collided_sprites = pygame.sprite.spritecollide(colliding_sprite, self.enemy_list, False)
             if collided_sprites:

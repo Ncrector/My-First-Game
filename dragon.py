@@ -10,7 +10,7 @@ from particles import *
 class Dragon(Entity):
     def __init__(self,monster_name, pos, groups, obstacle_sprites, damage_player, trigger_death_particles, add_exp, create_fireball):
         super().__init__(groups)
-        self.sprite_type = 'dragon' 
+        self.sprite_type = 'enemy' 
           
         # graphics
         monster_name = 'dragon'
@@ -121,7 +121,7 @@ class Dragon(Entity):
     def get_status(self, player):
         distance = self.get_player_distance_direction(player)[0]
         direction = self.get_player_distance_direction(player)[1]
-
+        
         if distance <= self.attack_radius and self.can_attack:
             if self.status != 'attack':
                 self.frame_index = 0
@@ -155,7 +155,7 @@ class Dragon(Entity):
     def animate(self):
         
         self.animation_speed = 0.05
-
+        print(self.status)
         animation = self.animations[self.status]
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):
@@ -208,9 +208,29 @@ class Dragon(Entity):
                 self.fireball_can_attack = True
 
     def hit_reaction(self):
-        if not self.vulnerable:
-            self.direction *= -self.resistance
-            self.speed += self.resistance
+        pass
+    
+    def detect_collision(self, sprite1, sprite2, overlap=0.5):
+        if sprite1.hitbox.colliderect(sprite2.hitbox):
+            # Get the collision offset
+            offset_x = sprite1.hitbox.x - sprite2.hitbox.x
+            offset_y = sprite1.hitbox.y - sprite2.hitbox.y
+            # Get the absolute values of the offsets
+            abs_offset_x = abs(offset_x)
+            abs_offset_y = abs(offset_y)
+            # Check which axis has the largest offset
+            if abs_offset_x > abs_offset_y:
+                # Move the sprite on the x-axis
+                if offset_x * overlap > 0:
+                    sprite1.hitbox.right += 1
+                else:
+                    sprite1.hitbox.left -= 1
+            else:
+                # Move the sprite on the y-axis
+                if offset_y * overlap > 0:
+                    sprite1.hitbox.bottom -= 1
+                else:
+                    sprite1.hitbox.top += 1
    
     def update(self):
         self.hit_reaction()
